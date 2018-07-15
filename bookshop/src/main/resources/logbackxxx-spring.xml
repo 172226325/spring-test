@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false">
 
-	<!--只在非生产环境往控制台打印日志 -->
+	<!--
+		只在非生产环境往控制台打印日志
+		通过自定义属性 TO_CONSOLE 来进行控制
+		TO_CONSOLE属性会在下面的logger来使用 对应logger的additivity属性，其值用来代表是否使用父logger的appender
+		，指的就是向控制台打印日志。
+	-->
+
+	<!--生产环境-->
 	<springProfile name="pro">
 		<property name="TO_CONSOLE" value="false" />
 	</springProfile>
+	<!--非生产环境-->
 	<springProfile name="!pro">
 		<property name="TO_CONSOLE" value="true" />
 	</springProfile>
@@ -18,10 +26,10 @@
 		</encoder>
 	</appender>
 
-	<!-- 按照每天生成日志文件 -->
+	<!-- 文件输出 按照每天生成日志文件 -->
 	<appender name="FILE"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${LOG_PATH}/${LOG_FILE}.log</file>
+		<file>${LOG_PATH}/${LOG_FILE}</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- rollover daily -->
 			<fileNamePattern>${LOG_PATH}/${LOG_FILE}-%d{yyyy-MM-dd}.%i.log
@@ -44,6 +52,7 @@
 		<appender-ref ref="STDOUT" />
 	</root>
 
+	<!-- 所有com开头的包下的类 的日志配置 -->
 	<logger name="com" level="INFO" additivity="${TO_CONSOLE}">
 		<appender-ref ref="FILE"/>
 	</logger>

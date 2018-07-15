@@ -18,6 +18,8 @@ import org.springframework.util.ClassUtils;
 
 
 /**
+ *
+ * 使用aop记录日志
  * @author zhailiang
  *
  */
@@ -26,7 +28,8 @@ import org.springframework.util.ClassUtils;
 public class ServiceLogAspect {
 	
 	protected static final Logger LOGGER = LoggerFactory.getLogger(ServiceLogAspect.class);
-	
+
+
 	@Around("@annotation(com.lesson.aspect.ServiceLog)")
 	public Object logServiceInvoke(ProceedingJoinPoint pjp) throws Throwable {
 		return doLog(pjp);

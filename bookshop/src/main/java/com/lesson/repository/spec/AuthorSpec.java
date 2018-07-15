@@ -27,16 +27,22 @@ public class AuthorSpec extends ShopSimpleSpecification<Author, AuthorCondition>
 	@Override
 	protected void addCondition(QueryWraper<Author> queryWraper) {
 //		addLikeCondition(queryWraper, "name");
-		
+
+		//如果name不为空
 		if(StringUtils.isNotBlank(getCondition().getName())) {
+			//按name模糊查询
 			Predicate nameLike = createLikeCondition(queryWraper, "name", getCondition().getName());
+			//按email模糊查询
 			Predicate emailLike = createLikeCondition(queryWraper, "email", getCondition().getName());
+			//两个条件之间是 or
 			queryWraper.addPredicate(queryWraper.getCb().or(nameLike, emailLike));
 		}
-		
+		//年龄查询的是区间数据
 		addBetweenCondition(queryWraper, "age");
+		//查询某性别的数据
 		addEqualsCondition(queryWraper, "sex");
-		
+
+		//添加非页面传递来的查询条件
 		addEqualsConditionToColumn(queryWraper, "enable", true);
 	}
 	

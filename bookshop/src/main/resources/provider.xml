@@ -8,7 +8,8 @@
 	<dubbo:application name="bookshop-provider"/>
 	
 	<dubbo:registry protocol="zookeeper" address="127.0.0.1:2181"></dubbo:registry>
-	
+
+	<!-- 接口名 bean实现 版本号 服务分组 -->
 	<dubbo:service interface="com.lesson.service.BookService" ref="bookService" version="1.0" group="roncoo"></dubbo:service>
 	
 </beans>

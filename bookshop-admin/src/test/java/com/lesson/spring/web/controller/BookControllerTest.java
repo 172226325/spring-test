@@ -40,8 +40,12 @@ public class BookControllerTest {
 	@Autowired
 	private WebApplicationContext wac;
 
+	//用于模拟mvc环境
 	private MockMvc mockMvc;
 
+	/**
+	 * 在每个测试用例执行之前调用
+	 */
 	@Before
 	public void setup() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
@@ -50,6 +54,7 @@ public class BookControllerTest {
 	@Test
 	public void whenUploadSuccess() throws Exception {
 		String result = mockMvc.perform(fileUpload("/file/upload")
+				// 参数名  文件名 contenttype  文件内容
 				.file(new MockMultipartFile("file","testFile.txt","multipart/form-data", "hello upload".getBytes("UTF-8"))))
 				.andExpect(status().isOk())
 				.andReturn().getResponse().getContentAsString();
@@ -58,15 +63,16 @@ public class BookControllerTest {
 	
 	@Test
 	public void whenQuerySuccess() throws Exception {
-		String result = mockMvc.perform(get("/book")
+		String result = mockMvc.perform(get("/book") //发送get请求 到 /book
 				.param("categoryId", "1")
 				.param("name", "战争")
 				.param("page", "1")
 				.param("size", "15")
 				.param("sort", "name,desc", "createdTime,asc")
-				.accept(MediaType.APPLICATION_JSON_UTF8))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.length()").value(3))
+				.accept(MediaType.APPLICATION_JSON_UTF8))  //请求类型是json  编码为utf8
+				.andExpect(status().isOk())   //期望返回正确的响应
+				//这里的jsonpath语法参见：https://github.com/json-path/JsonPath
+				.andExpect(jsonPath("$.length()").value(3))  //期望返回数据的长度为3
 				.andReturn().getResponse().getContentAsString();
 		System.out.println(result);
 	}

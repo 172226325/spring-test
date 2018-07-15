@@ -33,7 +33,8 @@ public class TimeInterceptor implements HandlerInterceptor {
 		System.out.println(((HandlerMethod)handler).getMethod().getName());
 		
 		request.setAttribute("startTime", new Date().getTime());
-		
+
+		//将信息放在日志当中  对应logback中的打印格式配置为：%X{userId}
 		MDC.put("userId", "123456");
 		
 		return true;

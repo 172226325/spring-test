@@ -26,7 +26,7 @@ public class BookShopApplication {
 	 */
 	public static void main(String[] args) {
 		SpringApplication application = new SpringApplication(BookShopApplication.class);
-//		application.setAdditionalProfiles("pro");
+//		application.setAdditionalProfiles("pro");  //指定profile为pro
 		application.run(args);
 	}
 
